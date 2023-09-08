@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+set -C -f
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+
+VIDEO_IMAGE_CACHE="$HOME/.cache/rust-tfm/thumbnail.$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' \
+  -- "$(readlink -f "$1")" | sha256sum | awk '{print $1}'))"
+
+batorcat() {
+  file="$1"
+  shift
+  if command -v bat > /dev/null 2>&1
+  then
+    bat --color=always --style=numbers --pager=never "$file" "$@"
+  else
+    cat "$file"
+  fi
+}
+
+case "$(file --dereference --brief --mime-type -- "$1")" in
+  text/html) lynx -width="$2" -display_charset=utf-8 -dump "$1" ;;
+  text/troff) man ./ "$1" | col -b ;;
+  text/* | */xml | application/json) batorcat "$1" --terminal-width "$2" ;;
+  image/*) chafa "$1" -s "$2"x"$3" ;;
+  audio/*) mediainfo "$1" ;;
+  video/*)
+    [ ! -f "${VIDEO_IMAGE_CACHE}.jpg" ] && ffmpegthumbnailer -i "$1" -o "${VIDEO_IMAGE_CACHE}.jpg" -s 0 -q 5
+    chafa "${VIDEO_IMAGE_CACHE}.jpg" -s "$2"x"$3" ;;
+  application/zip) atool --list -- "$1" ;;
+  application/pgp-encrypted) gpg -d -- "$1" ;;
+  *) if file -ibL "$1" | grep -q text; then
+       batorcat "$1"
+     else
+       file -Lb "$1"
+     fi;;
+esac
+
+exit 0

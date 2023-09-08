@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eu
+IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+
+case $(file --mime-type "$(readlink -f "$rust_tfm_f")" -b) in
+  text/*|application/json|inode/x-empty) $EDITOR $rust_tfm_fx;;
+  image/svg+xml) display -- "$rust_tfm_f" ;;
+  image/*) rotdir "$rust_tfm_f" | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\|ico\)\(_large\)*$" | setsid -f sxiv -aio 2>/dev/null ;;
+  audio/*) mpv --audio-display=no "$rust_tfm_f" ;;
+  video/*) setsid -f mpv "$rust_tfm_f" -quiet >/dev/null 2>&1 ;;
+  application/pdf) setsid -f "$BROWSER" $rust_tfm_fx > /dev/null 2>&1 ;;
+esac
