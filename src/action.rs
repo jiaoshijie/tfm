@@ -27,7 +27,7 @@ impl Action for CallAction {
         match self.op.as_str() {
             "quit" => {
                 // quit tfm
-                if app.nav.mv_cp_total_size == 0 && app.nav.mv_cp_size == 0 {
+                if app.nav.mv_cp_total_size == 0 {
                     app.quit = true;
                 } else {
                     app.nav.error_message = "`paste` or `remove` operation in progress".to_string();

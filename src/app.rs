@@ -68,6 +68,7 @@ impl App {
                 recv(self.nav.mv_cp_total_chan.u64_recv) -> n => {
                     self.nav.mv_cp_total_size = n.unwrap();
                     self.nav.mv_cp_size = 0;
+                    log::info!("mv_cp_total_chan received => total_size: {}, mv_cp_size: {}", self.nav.mv_cp_total_size, self.nav.mv_cp_size);
                     self.nav.check_dirs();  // NOTE: this function doesn't run asynchronously.
                     self.nav.update_preview(true, &self.ui.preview_layout);
                 }
