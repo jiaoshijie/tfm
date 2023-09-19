@@ -241,7 +241,7 @@ impl App {
                     .unwrap();
                 self.nav.cmd_string_ind += ch.len_utf8();
             }
-        } else if control && (key == "w" || key == "Backspace") {
+        } else if control && key == "w" {
             let (old, new) = utils::find_word(&self.nav.cmd_string, self.nav.cmd_string_ind);
             self.nav.cmd_string_ind = new;
             self.nav.cmd_string = format!(

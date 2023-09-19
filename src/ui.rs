@@ -4,7 +4,7 @@ use crossterm::{cursor, execute, queue, terminal};
 use unicode_width::{UnicodeWidthChar, UnicodeWidthStr};
 
 use crate::buffer::{Attr, Buffer, Style};
-use crate::config::{theme, USER};
+use crate::config::theme;
 use crate::dir::Dir;
 use crate::file::{File, FileType, LinkState};
 use crate::nav::Nav;
@@ -34,6 +34,7 @@ pub struct Ui {
     out: Box<dyn std::io::Write>, // TODO: maybe just use `Stdout` instead of `Box<...>`
     buffer: Buffer,
     wins: [u16; 4],
+    user: String,
 
     pub preview_layout: (u16, u16, u16, u16),
     pub toggle_ev_chan: utils::BoolChan,
@@ -46,6 +47,7 @@ impl Ui {
         Self {
             out: Box::new(std::io::stdout()),
             buffer,
+            user: std::env::var("USER").unwrap_or_default(),
             wins: [0, cols / 6, cols / 2, cols - 1],
             preview_layout: (cols / 2 - 2, rows - 4, cols / 2 + 1, 2),
             toggle_ev_chan: utils::BoolChan::new(),
@@ -130,7 +132,7 @@ impl Ui {
     fn draw_pwd(&mut self, path: &Path, file_name: &str) {
         let cols = self.buffer.size.0;
         let mut pos = 0;
-        let user = format!("{USER}:");
+        let user = format!("{user}:", user = self.user);
         self.buffer
             .set_line(pos, 0, cols.saturating_sub(pos), &user, &theme::USER_STYLE);
         pos += user.width() as u16;

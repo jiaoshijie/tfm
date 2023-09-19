@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -eu
-IFS="$(printf '%b_' '\n')"; IFS="${IFS%_}"
+IFS=$'\n'
 
 case $(file --mime-type "$(readlink -f "$rust_tfm_f")" -b) in
   text/*|application/json|inode/x-empty) $EDITOR $rust_tfm_fx;;
