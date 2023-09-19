@@ -178,9 +178,7 @@ impl Nav {
                     return;
                 }
             } // drop lock here to prevent dir_send finished, but thread not end, then ui.draw_preview try_lock() will failed.
-            if let Err(err) = dir_send.send(()) {
-                log::warn!("`load_dir` function update dir send signal `{err}` failed!");
-            }
+            let _ = dir_send.send(());
         });
         ret
     }
@@ -215,9 +213,7 @@ impl Nav {
                     return;
                 }
             }
-            if let Err(err) = reg_send.send(()) {
-                log::warn!("`load_reg` function update reg file send signal `{err}` failed!",);
-            }
+            let _ = reg_send.send(());
         });
         ret
     }
