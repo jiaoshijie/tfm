@@ -373,7 +373,7 @@ impl Nav {
     }
 
     pub fn paste(&mut self) {
-        if self.mv_cp_total_size != 0 || self.mv_cp_size != 0 {
+        if self.mv_cp_total_size != 0 {
             self.error_message =
                 "ERROR: `paste` or `remove` opration already in progress!!!".to_string();
             return;
@@ -500,7 +500,7 @@ impl Nav {
     }
 
     pub fn remove(&mut self) {
-        if self.mv_cp_total_size != 0 || self.mv_cp_size != 0 {
+        if self.mv_cp_total_size != 0 {
             self.error_message =
                 "ERROR: `paste` or `remove` opration already in progress!!!".to_string();
             return;
