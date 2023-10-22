@@ -18,17 +18,6 @@ macro_rules! nth {
     };
 }
 
-macro_rules! parse2usize {
-    ($slice:expr) => {
-        $slice
-            .parse::<usize>()
-            .map_err(|err| {
-                log::error!("{err} => Parse str `{str}` to usize failed!", str = $slice);
-            })
-            .unwrap()
-    };
-}
-
 macro_rules! impl_chan {
     ($name:ty, $send_mem:ident, $recv_mem:ident, $t:ty) => {
         impl $name {
@@ -77,6 +66,14 @@ pub fn is_hidden(f: &File) -> bool {
     f.file_name.starts_with('.') && f.file_name != "."
 }
 
+/// Param: `a` and `b` only contain 0-9 numbers.
+fn number_cmp(a: &str, b: &str) -> std::cmp::Ordering {
+    match (a.parse::<usize>(), b.parse::<usize>()) {
+        (Ok(an), Ok(bn)) => an.cmp(&bn),
+        (_, _) => a.cmp(b),
+    }
+}
+
 // Natural sort order: https://en.wikipedia.org/wiki/Natural_sort_order
 pub fn natural_cmp(a: &str, b: &str) -> std::cmp::Ordering {
     let (a, b) = (a.to_ascii_lowercase(), b.to_ascii_lowercase());
@@ -111,7 +108,7 @@ pub fn natural_cmp(a: &str, b: &str) -> std::cmp::Ordering {
         }
 
         if a_is_digit && b_is_digit {
-            return parse2usize!(a_slice).cmp(&parse2usize!(b_slice));
+            return number_cmp(a_slice, b_slice);
         }
 
         return a_slice.cmp(b_slice);
