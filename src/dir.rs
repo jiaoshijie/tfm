@@ -196,9 +196,16 @@ impl Dir {
     pub fn bound_position(&mut self, rows: usize) {
         let files_len = self.files_len;
         let sp = std::cmp::min(self.sp, files_len.saturating_sub(rows));
+        // When rows changes, make sure cursor will track the right file.
+        // But this will cause a problem, when files_len changes.
         self.bp += self.sp - sp;
         self.sp = sp;
         self.bp = std::cmp::min(self.bp, files_len.saturating_sub(1));
+        // When delete file(files_len changes) checks self.sp + self.bp < files_len
+        // self.sp should always valid, so just change self.bp.
+        if self.sp + self.bp >= files_len {
+            self.bp = rows - 1;
+        }
         log::info!("bp: {bp}, files_len: {files_len}", bp = self.bp);
         if files_len > rows {
             let scroll_off = if rows % 2 == 0 {
