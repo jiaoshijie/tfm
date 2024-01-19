@@ -558,17 +558,23 @@ impl Nav {
                     let path = files[lock.sp + lock.bp].file_path.clone();
                     let mut new_path = path.clone();
                     new_path.set_file_name(new_name);
-                    if let Err(err) = std::fs::rename(&path, &new_path) {
-                        self.error_message = format!(
-                            "{err}: rename `{src}` to `{dst}` failed",
-                            src = path.display(),
-                            dst = new_path.display()
-                        );
-                        log::error!("{err_msg}", err_msg = self.error_message);
-                        return;
+                    if new_path.exists() {
+                        // NOTE: if new_path already exists, then do nothing.
+                        self.error_message =
+                            format!("`{dst}` already exists!!!", dst = new_path.display());
+                    } else {
+                        if let Err(err) = std::fs::rename(&path, &new_path) {
+                            self.error_message = format!(
+                                "{err}: rename `{src}` to `{dst}` failed",
+                                src = path.display(),
+                                dst = new_path.display()
+                            );
+                            log::error!("{err_msg}", err_msg = self.error_message);
+                            return;
+                        }
+                        lock.update();
+                        lock.sel(new_name, self.useful_rows as usize);
                     }
-                    lock.update();
-                    lock.sel(new_name, self.useful_rows as usize);
                 }
                 None => {
                     self.error_message = "No file to rename".to_string();
