@@ -313,7 +313,13 @@ impl Ui {
                             }
                         }
                     }
-                    st.parse_ansi_code(&reg.lines[ind][l..r]);
+                    // NOTE: When a escape charactor that is not belong to an ANSI escape
+                    // code(see `vim/runtime/autodload/paste.vim` file) is contained in a line, will casues r < l.
+                    if l <= r {
+                        st.parse_ansi_code(&reg.lines[ind][l..r]);
+                    } else {
+                        r = l;
+                    }
                     l = r + 1;
                 } else {
                     // NOTE: if ch.width.unwrap() failed, it probably is a unshown character, so return 0 for this situation
