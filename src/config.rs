@@ -80,6 +80,8 @@ pub mod actions {
         ("m", "yp", "&echo -n \"$rust_tfm_f\" | xsel -ib"),  // copy file path under the cursor to system clipboard. NOTE: you need to change `xsel` to your clipboard manager(X11: xclip or xsel, Wayland: wl-clipboard)
         ("m", "yn", "&echo -n \"$rust_tfm_f\" | awk -F '/' '{printf $NF}' | xsel -ib"),  // copy file name to system clipboard
         ("m", "y.", "&echo -n \"$rust_tfm_f\" | awk -F '/' '{printf $NF}' | sed \"s/\\.[^\\.]*$//g\" | xsel -ib"),  // copy file name(without extension) to system clipboard
+
+        ("m", "pf", "!echo \"$rust_tfm_f\""),
     ];
 
     const CMD_CHANGE_FILES_NAME: &str = r#"${
