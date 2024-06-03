@@ -147,7 +147,7 @@ impl Ui {
                 p.to_string()
             }
         } else {
-            log::error!("{path} may contain non-UTF-8!!!", path = path.display());
+            log::error!("{path} may contain non-UTF-8 characters!!!", path = path.display());
             String::from("")
         };
         self.buffer.set_line(
