@@ -4,6 +4,10 @@
 
 [![Preview](https://github.com/jiaoshijie/rust-tfm/assets/43605101/246b0a58-e604-4b13-9449-f991039b6f55)](https://github.com/jiaoshijie/rust-tfm/assets/43605101/6a5b1e3a-52e6-4ae9-b85d-eb8c0dd16308)
 
+## TODO
+
+- [ ] Change nav.selections type from HashMap to BTreeMap
+
 ## Features
 
 - Asynchronous IO operations to avoid UI blocking
