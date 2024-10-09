@@ -19,8 +19,8 @@ pub static HIDDEN: RwLock<bool> = RwLock::new(true); // true: don't show hidden 
 pub static SORT_TYPE: RwLock<SortType> = RwLock::new(SortType::Natural); // using Natural order by default
 
 // NOTE: You need to change these pathes to your own pathes.
-pub const PREVIEWER: &str = "~/Downloads/Code/my/rust-tfm/script/preview";
-pub const OPENER: &str = "~/Downloads/Code/my/rust-tfm/script/open";
+pub const PREVIEWER: &str = "~/code/tfm/script/preview";
+pub const OPENER: &str = "~/code/tfm/script/open";
 
 #[rustfmt::skip]
 pub mod actions {
