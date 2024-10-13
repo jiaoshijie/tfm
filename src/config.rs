@@ -74,7 +74,7 @@ pub mod actions {
 
         ("m", "bg", "$set-bg \"$rust_tfm_f\""),  // NOTE: this is a bash script to set backgrounp only for myself, you can just delete it.
         ("m", "<Enter>", "$$EDITOR \"$rust_tfm_f\""),  // NOTE: Open a file using text editor, and don't care what file type it is.
-        ("m", "dD", "$IFS=$'\n';gio trash $rust_tfm_fx"),  // NOTE: using `gio trash` to remove files to Trash instead directly remove it.
+        ("m", "dD", "$IFS=$'\n';trashy put $rust_tfm_fx"),  // NOTE: using `trashy put` to remove files to Trash instead directly remove it.
         ("m", "A", CMD_CHANGE_FILES_NAME), // change files name using text editor, NOTE: when changing finished you need manually unselect previously selected files.
 
         ("m", "yp", "&echo -n \"$rust_tfm_f\" | xsel -ib"),  // copy file path under the cursor to system clipboard. NOTE: you need to change `xsel` to your clipboard manager(X11: xclip or xsel, Wayland: wl-clipboard)

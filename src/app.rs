@@ -331,7 +331,7 @@ impl App {
     //   &    No   Yes   No    No     No     Do nothing
     pub fn run_shell(&mut self, cmd_str: &str, prefix: char) {
         self.nav.export_files();
-        let mut cmd = Command::new("sh");
+        let mut cmd = Command::new("bash");
         cmd.arg("-c").arg(cmd_str);
         log::info!("run_shell: running command `{cmd_str}`");
         match prefix {
