@@ -19,8 +19,8 @@ pub static HIDDEN: RwLock<bool> = RwLock::new(true); // true: don't show hidden 
 pub static SORT_TYPE: RwLock<SortType> = RwLock::new(SortType::Natural); // using Natural order by default
 
 // NOTE: You need to change these pathes to your own pathes.
-pub const PREVIEWER: &str = "~/code/tfm/script/preview";
-pub const OPENER: &str = "~/code/tfm/script/open";
+pub const PREVIEWER: &str = "~/media/code/software/tfm/script/preview";
+pub const OPENER: &str = "~/media/code/software/tfm/script/open";
 
 #[rustfmt::skip]
 pub mod actions {
@@ -61,12 +61,12 @@ pub mod actions {
 
         ("c", "a", "rename"),  // rename file under the cursor
         // --------------------------
-        ("s", "zh", "hidden!"),  // toggle hidden files
+        ("s", "gh", "hidden!"),  // toggle hidden files
         ("s", "zs", "sortby size"),  // sort by file size
         ("s", "zn", "sortby natural"),  // sort by natural comparison
         // --------------------------
         ("m", "gt", ":cd /tmp"),  // goto /tmp
-        ("m", "gh", ":cd /home/jsj"),  // goto home directory, NOTE: you need change to your own dir.
+        ("m", "go", ":cd /home/jsj"),  // goto home directory, NOTE: you need change to your own dir.
         ("m", "gu", ":cd /usr"),
         ("m", "gc", ":cd /home/jsj/.config"),  // NOTE: you need change to your own dir.
         ("m", "gl", ":cd /home/jsj/.local"),   // NOTE: you need change to your own dir.
